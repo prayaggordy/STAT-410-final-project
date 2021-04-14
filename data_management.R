@@ -1,7 +1,5 @@
 library(magrittr)
 
-setwd("/Users/Prayag/Documents/Rice/STAT 410/STAT 410/final_project")
-
 config <- yaml::read_yaml("./config.yaml")
 
 get_outcome <- function(fn = config$data$outcome$pth,
