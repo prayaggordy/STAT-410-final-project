@@ -1,0 +1,20 @@
+data:
+  outcome:
+    pth: ./data/Linked Birth  Infant Death Records, 2017-2018 Expanded.txt
+    delim: "\t"
+
+sources:
+  outcome:
+    description: "Infant mortality data"
+    name: "CDC WONDER"
+    url: "https://wonder.cdc.gov/controller/datarequest/D159"
+    variables: ""
+    collected: "Download"
+    documentation: "https://wonder.cdc.gov/wonder/help/lbd-expanded.html#"
+  census:
+    description: "Demographic data"
+    name: "American Community Survey"
+    url: "https://www.census.gov/programs-surveys/acs"
+    variables: ["B00001_001", "B01001_002"]
+    collected: "`tidycensus` package"
+    documentation: ""
