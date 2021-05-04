@@ -2,7 +2,8 @@
 title: "Final project"
 author: "Prayag Gordy"
 date: "5/4/2021"
-output: pdf_document
+output:
+  bookdown::html_document2: default
 ---
 
 ```{r setup, include=FALSE}
@@ -20,7 +21,7 @@ config <- yaml::read_yaml("config.yaml")
 invisible(sapply(list.files("R", full.names = TRUE, recursive = TRUE), source, .GlobalEnv))
 
 outcome <- get_outcome()
-demographics <- get_census()
+demographics <- get_census(update = T)
 ```
 
 ```{r, child = paste0("Rmd/", config$sections, ".Rmd")}
