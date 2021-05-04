@@ -23,7 +23,7 @@ library(magrittr)
 
 config <- yaml::read_yaml("config.yaml")
 
-outcome <- readr::read_csv("data/outcome_processed.csv")
+outcome <- readr::read_csv(config$data$outcome$proc)
 ```
 
 \section{Introduction}
