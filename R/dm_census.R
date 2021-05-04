@@ -38,7 +38,7 @@ clean_census <- function(df, census_vars, aggregate_categories) {
 #' @param leave_as_is: Vector of variables to leave without calculating rates
 normalize_population <- function(df,
 																 population_var = "B01001_001",
-																 leave_as_is = c("B19083_001", "B19013_001")) {
+																 leave_as_is = c("B01001_001", "B19083_001", "B19013_001")) {
 
 	population <- df %>%
 		dplyr::filter(variable == population_var) %>%
@@ -47,7 +47,8 @@ normalize_population <- function(df,
 	df %>%
 		dplyr::inner_join(population) %>%
 		dplyr::arrange(fips, variable) %>%
-		dplyr::mutate(estimate = ifelse(variable %in% leave_as_is, estimate, estimate/population*100000))
+		dplyr::mutate(estimate = ifelse(variable %in% leave_as_is, estimate, estimate/population*100000)) %>%
+		dplyr::select(-population)
 }
 
 #' @title Main census data management
@@ -80,7 +81,24 @@ get_census <- function(variables = config$sources$census$variables,
 
 		df <- download_census(variables = variables, fn_raw = fn_raw) %>%
 			clean_census(census_vars = census_vars, aggregate_categories = aggregate_categories) %>%
-			normalize_population()
+			normalize_population() %>%
+			dplyr::mutate(variable_name_short = dplyr::case_when(
+				variable == "B01001_001" ~ "population",
+				variable == "B01001_002" ~ "male",
+				variable == "B01001_026" ~ "female",
+				variable == "B01001B_001" ~ "black",
+				variable == "B01001D_001" ~ "asian",
+				variable == "B01001H_001" ~ "white",
+				variable == "B01001I_001" ~ "hispanic",
+				variable == "B19013_001" ~ "income",
+				variable == "B19083_001" ~ "gini",
+				variable == "B22002_002" ~ "food_stamp",
+				variable == "B23006_002" ~ "less_HS",
+				variable == "B23006_009" ~ "complete_HS",
+				variable == "B23006_016" ~ "some_college",
+				variable == "B23006_023" ~ "college",
+				TRUE ~ variable
+			))
 
 		readr::write_csv(x = df,
 										 file = fn_proc)
