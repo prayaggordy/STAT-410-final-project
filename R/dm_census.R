@@ -38,7 +38,7 @@ clean_census <- function(df, census_vars, aggregate_categories) {
 #' @param leave_as_is: Vector of variables to leave without calculating rates
 normalize_population <- function(df,
 																 population_var = "B01001_001",
-																 leave_as_is = c("B19083_001")) {
+																 leave_as_is = c("B19083_001", "B19013_001")) {
 
 	population <- df %>%
 		dplyr::filter(variable == population_var) %>%
