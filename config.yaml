@@ -29,3 +29,5 @@ sources:
                 "B27022_004", "B27022_005", "B27022_007", "B27022_008", "B27022_011", "B27022_012", "B27022_014", "B27022_015"] # male in school with/out HI, male not in school, females
     collected: "`tidycensus` package"
     documentation: "5-year 2019 estimates"
+
+sections: ["1_project_statement", "2_data_description", "3_exploratory", "4_analysis", "5_discussion", "6_references"]
