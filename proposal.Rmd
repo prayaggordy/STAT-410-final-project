@@ -35,9 +35,14 @@ Targeted interventions and general improvements in access to and quality of heal
 \section{Data}
 
 ```{r}
-data.table::rbindlist(config$sources) %>% 
-	dplyr::select(Data = description, Source = name, Link = url, `Collection method` = collected) %>% 
-	dplyr::distinct() %>% 
+lapply(config$sources,
+			 function(source) {
+			 	c("Data" = source$description, 
+			 		"Source" = source$name, 
+			 		"Link" = source$url, 
+			 		"Collection method" = source$collected)
+			 }) %>% 
+	dplyr::bind_rows() %>% 
 	knitr::kable()
 ```
 
