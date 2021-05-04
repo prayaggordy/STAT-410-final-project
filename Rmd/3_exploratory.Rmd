@@ -1,1 +1,19 @@
 ## Exploratory data analysis
+
+```{r indicators}
+lapply(config$sources,
+			 function(source) {
+			 	lapply(source$indicator,
+			 				 function(indicator) {c("Dataset" = source$description, "Indicator" = indicator)}
+			 	) %>% 
+			 		dplyr::bind_rows()
+			 }) %>% 
+	dplyr::bind_rows() %>% 
+	knitr::kable(caption = "List of indicators collected",
+							 escape = TRUE) %>% 
+	kableExtra::collapse_rows(valign = "top")
+```
+
+The indicators considered are listed in Table \@ref(tab:indicators).
+
+
