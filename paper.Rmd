@@ -1,0 +1,29 @@
+---
+title: "Final project"
+author: "Prayag Gordy"
+date: "5/4/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+											message = FALSE,
+											warning = FALSE,
+											cache = TRUE)
+```
+
+```{r}
+library(magrittr)
+library(ggplot2)
+
+config <- yaml::read_yaml("config.yaml")
+invisible(sapply(list.files("R", full.names = TRUE, recursive = TRUE), source, .GlobalEnv))
+
+outcome <- get_outcome()
+demographics <- get_census()
+```
+
+```{r, child = paste0("Rmd/", config$sections, ".Rmd")}
+```
+
+
