@@ -1,6 +1,6 @@
 ## Data description
 
-```{r data-collection, fig.cap="Collection methods for data"}
+```{r data-collection}
 lapply(config$sources,
 			 function(source) {
 			 	c("Data" = source$description, 
@@ -9,21 +9,8 @@ lapply(config$sources,
 			 		"Collection method" = source$collected)
 			 }) %>% 
 	dplyr::bind_rows() %>% 
-	knitr::kable()
+	knitr::kable(caption = "Collection methods for data",
+							 escape = TRUE)
 ```
 
-
-```{r indicators, fig.cap="List of indicators collected"}
-lapply(config$sources,
-			 function(source) {
-			 	lapply(source$indicator,
-			 				 function(indicator) {c("Dataset" = source$description, "Indicator" = indicator)}
-			 	) %>% 
-			 		dplyr::bind_rows()
-			 }) %>% 
-	dplyr::bind_rows() %>% 
-	knitr::kable() %>% 
-	kableExtra::collapse_rows(valign = "top")
-```
-
-The data were collected as described in Table \@ref(fig:data-collection). The indicators considered are listed in Table \@ref(fig:indicators).
+The data were collected as described in Table \@ref(tab:data-collection). Our outcome data will serve as our $y$ variables in regression, while our demographic data will serve as predictors. These demographic data will help show significant associations between indicators such as race and healthcare coverage with infant mortality.
