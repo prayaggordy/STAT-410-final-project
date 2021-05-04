@@ -1,12 +1,18 @@
 data:
   outcome:
-    pth: ./data/Linked Birth  Infant Death Records, 2017-2018 Expanded.txt
+    raw: ./data/Linked Birth  Infant Death Records, 2017-2018 Expanded.txt
+    proc: ./data/outcome_processed.csv
     delim: "\t"
+  census:
+    raw: ./data/demographics_raw.csv
+    proc: ./data/demographics.csv
+    delim: ""
 
 sources:
   outcome:
     description: "Infant mortality data"
     name: "CDC WONDER"
+    shortname: "CDC"
     url: "https://wonder.cdc.gov/controller/datarequest/D159"
     variables: ""
     collected: "Download"
@@ -14,7 +20,12 @@ sources:
   census:
     description: "Demographic data"
     name: "American Community Survey"
+    shortname: "ACS"
     url: "https://www.census.gov/programs-surveys/acs"
-    variables: ["B00001_001", "B01001_002"]
+    variables: ["B01001_001", "B01001_002", "B01001_026",  # total population, male, female
+                "B01001H_001", "B01001B_001", "B01001D_001", "B01001I_001",  # non-hispanic white, black, asian, hispanic
+                "B19013_001", "B19083_001", "B22002_002",  # median household income, gini index, received food stamps
+                "B23006_002", "B23006_009", "B23006_016", "B23006_023",  # less than HS, HS, some college, bachelors or higher
+                "B27022_004", "B27022_005", "B27022_007", "B27022_008", "B27022_011", "B27022_012", "B27022_014", "B27022_015"] # male in school with/out HI, male not in school, females
     collected: "`tidycensus` package"
-    documentation: ""
+    documentation: "5-year 2019 estimates"
