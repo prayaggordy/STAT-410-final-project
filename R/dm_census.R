@@ -4,7 +4,7 @@ config <- yaml::read_yaml("./config.yaml")
 
 #' @title Download the raw census data
 #' @param variables: The census variables to download
-#' @param fn_raw: The file location to store the downloaded data
+#' @param fn_raw: File location at which to store raw data
 download_census <- function(variables, fn_raw) {
 
 	df <- tidycensus::get_acs(geography = "county", variables = variables)
@@ -14,6 +14,10 @@ download_census <- function(variables, fn_raw) {
 	return(df)
 }
 
+#' @title Clean the census data
+#' @param df: Data
+#' @param census_vars: Variable lookup table
+#' @param aggregate_categories: For combining data
 clean_census <- function(df, census_vars, aggregate_categories) {
 
 	df %>%
@@ -28,6 +32,10 @@ clean_census <- function(df, census_vars, aggregate_categories) {
 		dplyr::mutate(variable_name = dplyr::coalesce(variable_name, variable))
 }
 
+#' @title Turn counts into rates
+#' @param df: Data
+#' @param population_var: Census variable for population
+#' @param leave_as_is: Vector of variables to leave without calculating rates
 normalize_population <- function(df,
 																 population_var = "B01001_001",
 																 leave_as_is = c("B19083_001")) {
@@ -39,9 +47,14 @@ normalize_population <- function(df,
 	df %>%
 		dplyr::inner_join(population) %>%
 		dplyr::arrange(fips, variable) %>%
-		dplyr::mutate(estimate = ifelse(variable %in% leave_as_is, estimate, estimate/population))
+		dplyr::mutate(estimate = ifelse(variable %in% leave_as_is, estimate, estimate/population*100000))
 }
 
+#' @title Main census data management
+#' @param variables: List of census variables
+#' @param fn_raw: File location at which to store initial census download
+#' @param fn_proc: File location at which to store cleaned census data
+#' @param update: Boolean, whether to update or pull from file
 get_census <- function(variables = config$sources$census$variables,
 											 fn_raw = config$data$census$raw,
 											 fn_proc = config$data$census$proc,
