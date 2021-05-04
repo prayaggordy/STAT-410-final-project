@@ -1,11 +1,11 @@
 data:
   outcome:
-    raw: ./data/Linked Birth  Infant Death Records, 2017-2018 Expanded.txt
-    proc: ./data/outcome_processed.csv
+    raw: ./data/raw/Linked Birth  Infant Death Records, 2017-2018 Expanded.txt
+    proc: ./data/processed/outcome_processed.csv
     delim: "\t"
   census:
-    raw: ./data/demographics_raw.csv
-    proc: ./data/demographics.csv
+    raw: ./data/raw/demographics_raw.csv
+    proc: ./data/processed/demographics_processed.csv
     delim: ""
 
 sources:
