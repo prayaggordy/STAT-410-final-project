@@ -11,9 +11,39 @@ lapply(config$sources,
 	dplyr::bind_rows() %>% 
 	knitr::kable(caption = "List of indicators collected",
 							 escape = TRUE) %>% 
-	kableExtra::collapse_rows(valign = "top")
+	kableExtra::collapse_rows(valign = "top") %>% 
+	kableExtra::kable_styling()
 ```
 
 The indicators considered are listed in Table \@ref(tab:indicators).
 
+```{r corrplot, fig.cap="Correlation plot for indicators under consideration"}
+demographics %>%
+	dplyr::select(fips, variable_name_short, estimate) %>%
+	tidyr::pivot_wider(names_from = "variable_name_short", values_from = "estimate") %>%
+	dplyr::select(-fips) %>%
+	cor(.) %>%
+	ggcorrplot::ggcorrplot(type = "full")
+```
+
+In Figure \@ref(fig:corrplot) we can see the correlations between our different demographic indicators. There are some obvious correlations, such as between male and feamle. There are important correlations to consider across types of indicators, such as insurance and income, race, and education; education and income and race; and food stamps and income. We can use interaction terms in the regression to account for this.
+
+The graph below shows the strong negative correlation between food stamps and income as an example of such an interaction.
+
+```{r}
+demographics %>%
+	dplyr::select(fips, variable_name_short, estimate) %>%
+	dplyr::filter(variable_name_short %in% c("food_stamp", "income")) %>%
+	tidyr::pivot_wider(id_cols = fips,
+										 names_from = "variable_name_short",
+										 values_from = "estimate") %>%
+	ggplot(aes(x = food_stamp, y = income)) +
+	geom_point() +
+	theme_minimal() +
+	labs(x = "Rate of residents on food stamps",
+			 y = "Median income",
+			 title = "Correlation between income and food stamps") +
+	scale_x_continuous(labels = scales::comma) +
+	scale_y_continuous(labels = scales::comma)
+```
 
