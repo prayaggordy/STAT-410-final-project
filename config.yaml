@@ -26,8 +26,7 @@ sources:
     variables: ["B01001_001", "B01001_002", "B01001_026",  # total population, male, female
                 "B01001H_001", "B01001B_001", "B01001D_001", "B01001I_001",  # non-hispanic white, black, asian, hispanic
                 "B19013_001", "B19083_001", "B22002_002",  # median household income, gini index, received food stamps
-                "B23006_002", "B23006_009", "B23006_016", "B23006_023",  # less than HS, HS, some college, bachelors or higher
-                "B27022_004", "B27022_005", "B27022_007", "B27022_008", "B27022_011", "B27022_012", "B27022_014", "B27022_015"] # male in school with/out HI, male not in school, females
+                "B23006_002", "B23006_009", "B23006_016", "B23006_023"]  # less than HS, HS, some college, bachelors or higher
     indicators: ["Total population", "Population by sex", "Population by age",
                  "Population by race",
                  "Median household income", "Gini index of income inequality", "Recipients of food stamps",

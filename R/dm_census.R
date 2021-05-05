@@ -2,12 +2,14 @@ library(magrittr)
 
 config <- yaml::read_yaml("./config.yaml")
 
-#' @title Get variables and groups for downloading age data
-build_age_vars <- function() {
-	lapply(config$census_age$sex,
+#' @title General function for getting sequential census variables
+#' @param l: List in config
+#' @param init: Starting part of census variables
+build_long_vars <- function(l, init) {
+	lapply(l,
 				 function(sex) {
 				 	paste0(
-				 		config$census_age$open,
+				 		init,
 				 		stringr::str_pad(sex$start:sex$end, width = 2, side = "left", pad = "0")
 				 	)
 				 }) %>%
@@ -15,33 +17,34 @@ build_age_vars <- function() {
 		unname()
 }
 
-build_aggregate_categories <- function() {
-	aggregate_categories <- tibble::tribble(
-		~ "category", ~ "variable",
-		"insured", "B27022_004",
-		"uninsured", "B27022_005",
-		"insured", "B27022_007",
-		"uninsured", "B27022_008",
-		"insured", "B27022_011",
-		"uninsured", "B27022_012",
-		"insured", "B27022_014",
-		"uninsured", "B27022_015"
-	)
+#' @title Get variables and groups for downloading age data
+build_age_vars <- function() {
+	build_long_vars(l = config$census_long$age$sex, init = config$census_long$age$open)
+}
 
+build_insurance_vars <- function() {
+	build_long_vars(l = config$census_long$insurance$sex, init = config$census_long$insurance$open) %>%
+		tibble::as_tibble() %>%
+		dplyr::rename(variable = value) %>%
+		dplyr::inner_join(census_vars, by = "variable") %>%
+		dplyr::filter(grepl(pattern = "health insurance coverage", x = variable_name)) %>%
+		dplyr::pull(variable)
+}
+
+build_aggregate_categories <- function() {
 	age_groups <- tibble::tibble(variable = build_age_vars(),
 															 category = rep(c(rep("under_18", 4),
 															 								 rep("between_18_44", 8),
 															 								 rep("between_45_65", 5),
 															 								 rep("above_65", 6)), 2))
 
-	return(dplyr::bind_rows(aggregate_categories, age_groups))
-}
+	insurance_groups <- tibble::tibble(variable = build_insurance_vars()) %>%
+		dplyr::inner_join(census_vars, by = "variable") %>%
+		tidyr::separate(col = variable_name, into = c("age_part", "category"), sep = "years:!!|over:!!") %>%
+		dplyr::select(variable, category) %>%
+		dplyr::mutate(category = ifelse(category == "With health insurance coverage", "insured", "uninsured"))
 
-#' @title Download Census data for age levels
-download_census_age <- function() {
-	age_vars <- build_age_vars()
-
-	tidycensus::get_acs(geography = "county", variables = age_vars)
+	return(dplyr::bind_rows(age_groups, insurance_groups))
 }
 
 #' @title Download the raw census data
@@ -50,7 +53,9 @@ download_census_age <- function() {
 download_census <- function(variables, fn_raw) {
 
 	df <- tidycensus::get_acs(geography = "county", variables = variables) %>%
-		dplyr::bind_rows(download_census_age())
+		dplyr::bind_rows(tidycensus::get_acs(geography = "county", variables = build_age_vars())) %>%
+		dplyr::bind_rows(tidycensus::get_acs(geography = "county", variables = build_insurance_vars()))
+
 	readr::write_csv(x = df,
 									 file = fn_raw)
 
