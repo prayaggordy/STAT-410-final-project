@@ -1,4 +1,4 @@
-# STAT-410-final-project
+# STAT 410 final project
 ### Prayag Gordy
 
 #### Directory structure
