@@ -28,9 +28,9 @@ demographics %>%
 
 In Figure \@ref(fig:corrplot) we can see the correlations between our different demographic indicators. There are some obvious correlations, such as between male and feamle. There are important correlations to consider across types of indicators, such as insurance and income, race, and education; education and income and race; and food stamps and income. We can use interaction terms in the regression to account for this.
 
-The graph below shows the strong negative correlation between food stamps and income as an example of such an interaction.
+The graph below (Figure \@ref(fig:food-stamps-income)) shows the strong negative correlation between food stamps and income as an example of such an interaction.
 
-```{r}
+```{r food-stamps-income, fig.cap="There is a strong negative correlation between food stamps and income"}
 demographics %>%
 	dplyr::select(fips, variable_name_short, estimate) %>%
 	dplyr::filter(variable_name_short %in% c("food_stamp", "income")) %>%
