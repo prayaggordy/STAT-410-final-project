@@ -36,14 +36,24 @@ sources:
     collected: "`tidycensus` package"
     documentation: "5-year 2019 estimates"
 
-census_age:
-  open: "B01001_0"
-  sex:
-    men:
-      start: 3
-      end: 25
-    women:
-      start: 27
-      end: 49
+census_long:
+  age:
+    open: "B01001_0"
+    sex:
+      men:
+        start: 3
+        end: 25
+      women:
+        start: 27
+        end: 49
+  insurance:
+    open: "B27001_0"
+    sex:
+      men:
+        start: 2
+        end: 29
+      women:
+        start: 30
+        end: 57
 
 sections: ["1_project_statement", "2_data_description", "3_exploratory", "4_analysis", "5_discussion", "6_references"]
