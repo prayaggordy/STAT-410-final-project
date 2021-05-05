@@ -2,12 +2,55 @@ library(magrittr)
 
 config <- yaml::read_yaml("./config.yaml")
 
+#' @title Get variables and groups for downloading age data
+build_age_vars <- function() {
+	lapply(config$census_age$sex,
+				 function(sex) {
+				 	paste0(
+				 		config$census_age$open,
+				 		stringr::str_pad(sex$start:sex$end, width = 2, side = "left", pad = "0")
+				 	)
+				 }) %>%
+		unlist() %>%
+		unname()
+}
+
+build_aggregate_categories <- function() {
+	aggregate_categories <- tibble::tribble(
+		~ "category", ~ "variable",
+		"insured", "B27022_004",
+		"uninsured", "B27022_005",
+		"insured", "B27022_007",
+		"uninsured", "B27022_008",
+		"insured", "B27022_011",
+		"uninsured", "B27022_012",
+		"insured", "B27022_014",
+		"uninsured", "B27022_015"
+	)
+
+	age_groups <- tibble::tibble(variable = build_age_vars(),
+															 category = rep(c(rep("under_18", 4),
+															 								 rep("between_18_44", 8),
+															 								 rep("between_45_65", 5),
+															 								 rep("above_65", 6)), 2))
+
+	return(dplyr::bind_rows(aggregate_categories, age_groups))
+}
+
+#' @title Download Census data for age levels
+download_census_age <- function() {
+	age_vars <- build_age_vars()
+
+	tidycensus::get_acs(geography = "county", variables = age_vars)
+}
+
 #' @title Download the raw census data
 #' @param variables: The census variables to download
 #' @param fn_raw: File location at which to store raw data
 download_census <- function(variables, fn_raw) {
 
-	df <- tidycensus::get_acs(geography = "county", variables = variables)
+	df <- tidycensus::get_acs(geography = "county", variables = variables) %>%
+		dplyr::bind_rows(download_census_age())
 	readr::write_csv(x = df,
 									 file = fn_raw)
 
@@ -67,17 +110,7 @@ get_census <- function(variables = config$sources$census$variables,
 			dplyr::mutate(variable_name = paste(concept, label, sep = ": ")) %>%
 			dplyr::select(variable = name, variable_name)
 
-		aggregate_categories <- tibble::tribble(
-			~ "category", ~ "variable",
-			"insured", "B27022_004",
-			"uninsured", "B27022_005",
-			"insured", "B27022_007",
-			"uninsured", "B27022_008",
-			"insured", "B27022_011",
-			"uninsured", "B27022_012",
-			"insured", "B27022_014",
-			"uninsured", "B27022_015"
-		)
+		aggregate_categories <- build_aggregate_categories()
 
 		df <- download_census(variables = variables, fn_raw = fn_raw) %>%
 			clean_census(census_vars = census_vars, aggregate_categories = aggregate_categories) %>%
