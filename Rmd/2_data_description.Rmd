@@ -10,7 +10,8 @@ lapply(config$sources,
 			 }) %>% 
 	dplyr::bind_rows() %>% 
 	knitr::kable(caption = "Collection methods for data",
-							 escape = TRUE)
+							 escape = TRUE) %>% 
+	kableExtra::kable_styling()
 ```
 
 The data were collected as described in Table \@ref(tab:data-collection). Our outcome data will serve as our $y$ variables in regression, while our demographic data will serve as predictors. These demographic data will help show significant associations between indicators such as race and healthcare coverage with infant mortality.
