@@ -9,14 +9,15 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE,
 											message = FALSE,
-											warning = FALSE,
-											cache = TRUE)
+											warning = FALSE)
+```
+
+```{r packages}
+library(magrittr)
+library(ggplot2)
 ```
 
 ```{r}
-library(magrittr)
-library(ggplot2)
-
 config <- yaml::read_yaml("config.yaml")
 invisible(sapply(list.files("R", full.names = TRUE, recursive = TRUE), source, .GlobalEnv))
 
@@ -42,5 +43,4 @@ df <- demographics %>%
 
 ```{r, child = paste0("Rmd/", config$sections, ".Rmd")}
 ```
-
 
