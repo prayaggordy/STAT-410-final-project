@@ -63,7 +63,8 @@ demographics %>%
 	tidyr::pivot_wider(names_from = "variable_name_short", values_from = "estimate") %>%
 	dplyr::select(-fips) %>%
 	cor(.) %>%
-	ggcorrplot::ggcorrplot(type = "full")
+	ggcorrplot::ggcorrplot(type = "full") +
+	theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
 ```
 
 In Figure \@ref(fig:corrplot) we can see the correlations between our different demographic indicators. There are some obvious correlations due to singularities, such as between male and female. There are important correlations to consider across types of indicators, such as insurance and income, race, and education; education and income and race; and food stamps and income. We can use interaction terms in the regression to account for this.
