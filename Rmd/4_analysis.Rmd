@@ -34,7 +34,7 @@ First, we set our models. The base model is of the form $y_i = \beta_0$. The ful
 
 Then, we can expand upon the full model by including some interactions, namely between income and race, income and the Gini index, income and education, and education and race. When comparing the model with interactions to the base model, the best model is `r print_latex_equation(best_interaction)`
 
-The $\mathrm{AIC}$ of the best model without interactions is $`r AIC(best_full)`$, and the $\mathrm{AIC}$ of that model with added interactions is $`r AIC(best_interaction)`$. Because these are practically identical, the interactions do not have a practically significant effect, so it is valid to choose the model without interactions.
+The $\mathrm{AIC}$ of the best model without interactions is $`r round(AIC(best_full))`$, and the $\mathrm{AIC}$ of that model with added interactions is $`r round(AIC(best_interaction))`$. Because these are practically identical, the interactions do not have a practically significant effect, so it is valid to choose the model without interactions.
 
 ### Model diagnostics
 
