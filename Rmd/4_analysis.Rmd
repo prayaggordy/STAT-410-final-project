@@ -9,12 +9,6 @@ df_fit <- df %>%
 
 fit_int <- lm(death_rate ~ 1, data = df_fit)
 fit_full <- lm(death_rate ~ ., data = df_fit)
-# fit_interactions <- lm(death_rate ~ . + food_stamp*income + uninsured*income +
-# 											 uninsured*black + uninsured*hispanic + uninsured*white + uninsured*asian +
-# 											 uninsured*less_HS + uninsured*complete_HS + uninsured*some_college + uninsured*college +
-# 											 income*less_HS + income*complete_HS + income*some_college + income*college +
-# 											 income*black + income*hispanic + income*white + income*asian,
-# 											 data = df_fit)
 
 best_full <- step(fit_int, scope = list(lower = fit_int, upper = fit_full), direction = "forward", trace = 0)
 best_full_fit <- lm(best_full$call$formula, data = df_fit)
