@@ -27,7 +27,11 @@ When comparing the full model to the base model, the best model is `r print_late
 
 When comparing the model with interactions to the base model, the best model is `r print_latex_equation(best_interaction)`
 
-The $\mathrm{AIC}$ of the model with interactions is lower than that of the model without interactions, so we'll use the one with interactions. Table \@ref(tab:reg) shows the summary table of this regression.
+The $\mathrm{AIC}$ of the model with interactions is lower than that of the model without interactions, so we'll use the one with interactions.
+
+### Model diagnostics
+
+Table \@ref(tab:reg) shows the summary table of this regression. We also need to examine the diagnostic plots to determine whether multiple linear regression is suitable for these data.
 
 ```{r reg}
 fit <- lm(best_interaction$call$formula, data = df_fit)
@@ -39,5 +43,31 @@ papeR::prettify(summary(fit)) %>%
 	kableExtra::kable_styling()
 ```
 
+```{r fitted-residual}
+dplyr::bind_cols(fit$fitted.values, fit$residuals) %>% 
+	magrittr::set_names(c("fit", "resid")) %>% 
+	ggplot(aes(x = fit, y = resid)) +
+	geom_point() +
+	theme_minimal() +
+	labs(title = "Residual vs fitted value plot",
+			 x = "Fitted value",
+			 y = "Residual",
+			 caption = "Residual vs fitted value plot")
+```
+
+```{r qq}
+tibble::tibble(fit$residuals) %>% 
+	ggplot(aes(sample = `fit$residuals`)) +
+	geom_qq() +
+	geom_qq_line() +
+	theme_minimal() +
+	labs(x = "Theoretical quantile",
+			 y = "Sample quantile",
+			 title = "Normal QQ plot for the residuals",
+			 caption = "Normal QQ plot for the residuals")
+```
+
+
+Figure \@ref(fig:fitted-residual) shows a residual-fitted value plot. There is no discernible pattern, which suggests linearity constant variance of the errors. Figure \@ref(fig:qq) shows a Normal QQ plot, which in this case suggests normality of the errors.
 
 
