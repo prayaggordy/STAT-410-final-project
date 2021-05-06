@@ -3,14 +3,15 @@ title: "Final project"
 author: "Prayag Gordy"
 date: "5/4/2021"
 output:
-  bookdown::pdf_document2: default
+  bookdown::pdf_document2:
+    number_sections: false
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE,
 											message = FALSE,
 											warning = FALSE,
-											fig.height = 3)
+											fig.height = 5)
 ```
 
 ```{r packages}
