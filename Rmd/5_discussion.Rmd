@@ -1,4 +1,14 @@
 ## Summary and discussion
 
+
+
 ### Limitations
-The suppression of data from counties with low infant mortality almost certainly impacted the results. Figure \@ref(fig:map) shows the included counties, which surround cities and have high populations. Much of the Midwest is not included in the sample. A future study could use data from a multi-year period, over which time many more counties would experience enough infant deaths to bypass the suppression threshold.
+The suppression of data from counties with low infant mortality almost certainly impacted the results. Figure \@ref(fig:map) shows the included counties, which surround cities and have high populations. Much of the Midwest is not included in the sample. Generally, the sample of counties was almost certainly not representative of the entire United States, and conclusions should focus on only the most populated counties.
+
+### Future studies
+
+A future study could use data from a multi-year period, over which time many more counties would experience enough infant deaths to bypass the suppression threshold. The type of counties included in the study could then expand, too.
+
+Additionally, future studies could examine individual-level data. A more granular study may reveal deeper and stronger insights.
+
+Finally, broader studies of infant and toddler deaths could shed light on disparities in early childhood care. The CDC only reports infant deaths for the first year of life.
