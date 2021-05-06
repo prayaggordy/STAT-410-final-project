@@ -1,3 +1,3 @@
 ## References
 
-Table @\ref(tab:data-collection) shows the data sources used in this project.
+Table \@ref(tab:data-collection) shows the data sources used in this project.
