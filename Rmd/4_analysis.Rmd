@@ -32,7 +32,7 @@ fit <- lm(best_full$call$formula, data = df_fit)
 
 First, we set our models. The base model is of the form $y_i = \beta_0$. The full model looks like $y_i = \beta_0 + \beta_1x_{i,1} + \cdots + \beta_{`r ncol(df_fit)`}x_{i,`r ncol(df_fit)`}$. We can use forward stepwise selection to find the model with the lowest $\mathrm{AIC}$ score. When comparing the full model to the base model, the best model is `r print_latex_equation(best_full)`
 
-Then, we can expand upon the full model by including some interactions, namely between income and race, income and the Gini index, income and education, and education and race. When comparing the model with interactions to the base model, the best model is `r print_latex_equation(best_interaction)`
+Then, we can expand upon the full model by including some interactions, namely between income and race, income and the Gini index, income and education, and education and race. When comparing the expanded model with interactions to the best full model, the best model with interactions is `r print_latex_equation(best_interaction)`
 
 The $\mathrm{AIC}$ of the best model without interactions is $`r round(AIC(best_full))`$, and the $\mathrm{AIC}$ of that model with added interactions is $`r round(AIC(best_interaction))`$. Because these are practically identical, the interactions do not have a practically significant effect, so it is valid to choose the model without interactions.
 
@@ -90,4 +90,4 @@ papeR::prettify(summary(fit)) %>%
 	kableExtra::kable_styling()
 ```
 
-Table \@ref(tab:reg) shows the summary table of this regression. An increase in the county's median income, the proportion of Hispanic residnets, and the Gini index of inequality all have statistically significant substantial negative effects on the infant mortality rate, while the proportion of Black residents and the proportion of residents of other race have statistically significant positive substantial effects on the infant mortality rate.
+Table \@ref(tab:reg) shows the summary table of this regression. An increase in the county's median income, the proportion of Hispanic residents, and the Gini index of inequality all have statistically significant substantial negative effects on the infant mortality rate, while the proportion of Black residents and the proportion of residents of other race have statistically significant positive substantial effects on the infant mortality rate.

@@ -2,13 +2,7 @@
 
 ### Conclusions
 
-A surprising result is that the majority of the included demographic factors had negative effects on the infant mortality rate. This suggests that some unconsidered factor has an effect of boosting this rate in these heavily-populated counties.
 
-Interestingly, measures of quality of life—in this case, healthcare—were not selected for the regression; mostly demographic variables (e.g. race), along with income and an indicator of income inequality, were considered.
-
-As the proportion of White people in the county grew, with all else equal, infant mortality fell; the same can be said of Asian and Hispanic people with a statistically significant effect, and of Black people with an almost significant effect. This breaks with prior studies that suggest that Black women have a significant (on the order of 2-3 times) higher infant mortality rate than non-Hispanic White women.
-
-The race-related predictor with the largest substantive effect was the proportion of Asian people. This was also the only demographic predictor with an interaction with income that remained in the regression. The propensity of high-wealth Asian people in these populated counties has a relatively large effect on infant mortality: 
 
 ### Limitations
 
