@@ -17,6 +17,8 @@ fit_interactions <- lm(death_rate ~ . + food_stamp*income + uninsured*income +
 
 best_full <- step(fit_int, scope = list(lower = fit_int, upper = fit_full), direction = "forward", trace = 0)
 best_interaction <- step(fit_int, scope = list(lower = fit_int, upper = fit_interactions), direction = "forward", trace = 0)
+
+fit <- lm(best_interaction$call$formula, data = df_fit)
 ```
 
 First, we set our models. The base model is of the form $y_i = \beta_0$. The full model looks like $y_i = \beta_0 + \beta_1x_{i,1} + \cdots + \beta_{`r ncol(df_fit)`}x_{i,`r ncol(df_fit)`}$. Finally, we also test a full model with interactions between insurance and income, race, and education; and income and education and race.
@@ -85,8 +87,6 @@ All together, these diagnostics suggest that a MLR model is adequate for these d
 ### Regression results
 
 ```{r reg}
-fit <- lm(best_interaction$call$formula, data = df_fit)
-
 papeR::prettify(summary(fit)) %>% 
 	dplyr::mutate(dplyr::across(2:6, ~round(., 5))) %>% 
 	dplyr::select(-ncol(.)) %>% 
@@ -94,4 +94,4 @@ papeR::prettify(summary(fit)) %>%
 	kableExtra::kable_styling()
 ```
 
-Table \@ref(tab:reg) shows the summary table of this regression. 
+Table \@ref(tab:reg) shows the summary table of this regression. An increase in median income, the proportion of the population that is Hispanic, the proportion of the population that is White, the proportion of the population that is Asian, the proportion ofthe population that completed some college, the proportion of the population that is over age 65 are all statistically significantly associated with a decrease in the infant mortality rate. The interaction term between the proportion of the population that is Asian and the median income has a statistically significant positive effect on the infant mortality rate.
