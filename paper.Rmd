@@ -3,13 +3,14 @@ title: "Final project"
 author: "Prayag Gordy"
 date: "5/4/2021"
 output:
-  bookdown::html_document2: default
+  bookdown::pdf_document2: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE,
 											message = FALSE,
-											warning = FALSE)
+											warning = FALSE,
+											fig.height = 3)
 ```
 
 ```{r packages}
