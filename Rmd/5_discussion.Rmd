@@ -2,7 +2,13 @@
 
 ### Conclusions
 
+In line with our regression results (Table \@ref(tab:reg)), we can break our discussion into three sections: race, income, and unincluded variables.
 
+#### Race
+
+This regression highlights important conclusions connecting a county's racial composition with its infant mortality rate. The racial categories entered into the regression were Black, Asian, Hispanic, and other, effectively making non-Hispanic White a baseline. As the proportion of the county that is Black increases relative to the other races, the infant mortality rate increases, too. One cannot interpret this effect as an increase in Black residents when the other races are held equal because this regression uses proportions, so more Black people means fewer non-Black people. The general substantive effect holds, though. Similarly, an increase in the other category—a large part of which subsists of Native American people—is associated with a higher infant mortality ratio. Interestingly, an increase in the proportion of Hispanic people is associated with a lower infant mortality ratio.
+
+Most of these effects are in line with prior research. Studies suggest that Black children are 2-3 times more likely than non-Hispanic White children to die as infants, and that Native American and Alaska Natives have an infant mortality rate twice as high as non-Hispanic Whites. Prior research has found that Hispanics have an infant mortality rate slightly higher—1.1 times, to be exact—than non-Hispanic Whites, so obtaining a negative effect for this nonrepresentative sample of counties is not too unreasonable.
 
 ### Limitations
 
