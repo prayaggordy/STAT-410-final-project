@@ -35,6 +35,12 @@ sources:
     collected: "`tidycensus`"
     documentation: "5-year 2019 estimates"
 
+references:
+  black-mortality:
+    url: "minorityhealth.hhs.gov/omh/browse.aspx?lvl=4&lvlid=23"
+    name: "HHS"
+    description: "Infant Mortality and African Americans"
+
 census_long:
   age:
     open: "B01001_0"
