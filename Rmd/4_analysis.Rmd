@@ -33,12 +33,11 @@ The $\mathrm{AIC}$ of the model with interactions is lower than that of the mode
 fit <- lm(best_interaction$call$formula, data = df_fit)
 
 papeR::prettify(summary(fit)) %>% 
-	dplyr::mutate(dplyr::across(2:6, ~round(., 4))) %>% 
+	dplyr::mutate(dplyr::across(2:6, ~round(., 5))) %>% 
 	dplyr::select(-ncol(.)) %>% 
 	knitr::kable(caption = "Regression output for best model") %>% 
 	kableExtra::kable_styling()
 ```
-
 
 
 
