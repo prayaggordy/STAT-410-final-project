@@ -1,14 +1,23 @@
 ## Summary and discussion
 
+### Conclusions
 
+A surprising result is that the majority of the included demographic factors had negative effects on the infant mortality rate. This suggests that some unconsidered factor has an effect of boosting this rate in these heavily-populated counties.
+
+Interestingly, measures of quality of life—in this case, healthcare—were not selected for the regression; mostly demographic variables (e.g. race), along with income and an indicator of income inequality, were considered.
+
+As the proportion of White people in the county grew, with all else equal, infant mortality fell; the same can be said of Asian and Hispanic people with a statistically significant effect, and of Black people with an almost significant effect. This breaks with prior studies that suggest that Black women have a significant (on the order of 2-3 times) higher infant mortality rate than non-Hispanic White women.
+
+The race-related predictor with the largest substantive effect was the proportion of Asian people. This was also the only demographic predictor with an interaction with income that remained in the regression. The propensity of high-wealth Asian people in these populated counties has a relatively large effect on infant mortality: 
 
 ### Limitations
-The suppression of data from counties with low infant mortality almost certainly impacted the results. Figure \@ref(fig:map) shows the included counties, which surround cities and have high populations. Much of the Midwest is not included in the sample. Generally, the sample of counties was almost certainly not representative of the entire United States, and conclusions should focus on only the most populated counties.
+
+The suppression of data from counties with low infant mortality almost certainly impacted the results. Figure \@ref(fig:map) shows the included counties, which surround cities and have high populations (Figure \@ref(fig:pop)). Much of the Midwest, for instance, is not included in the sample. Generally, the sample of counties was almost certainly not representative of the entire United States, and conclusions should focus on only the most populated counties.
 
 ### Future studies
 
-A future study could use data from a multi-year period, over which time many more counties would experience enough infant deaths to bypass the suppression threshold. The type of counties included in the study could then expand, too.
+Most notably, future studies need to address the lack of a positive effect and the lack of a representative sample. One such solution could be to use data from a multi-year period, over which time many more counties would experience enough infant deaths to bypass the suppression threshold. The type of counties included in the study could then expand, too.
 
 Additionally, future studies could examine individual-level data. A more granular study may reveal deeper and stronger insights.
 
-Finally, broader studies of infant and toddler deaths could shed light on disparities in early childhood care. The CDC only reports infant deaths for the first year of life.
+Finally, broader studies of infant and toddler deaths could shed light on disparities in early childhood care. The CDC only reports infant deaths for the first year of life, but early childhood health may be crucial for longevity and a lifetime of health.
