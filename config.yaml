@@ -36,14 +36,10 @@ sources:
     documentation: "5-year 2019 estimates"
 
 references:
-  black-mortality:
-    url: "minorityhealth.hhs.gov/omh/browse.aspx?lvl=4&lvlid=23"
+  race-mortality:
+    url: "minorityhealth.hhs.gov"
     name: "HHS"
-    description: "Infant Mortality and African Americans"
-  native-mortality:
-    url: "minorityhealth.hhs.gov/omh/browse.aspx?lvl=4&lvlid=38"
-    name: "HHS"
-    description: "Infant Mortality and American Indians/Alaska Natives"
+    description: "Infant Mortality"
 
 census_long:
   age:
