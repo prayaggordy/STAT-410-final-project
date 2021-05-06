@@ -16,7 +16,7 @@ The suppression of data from counties with low infant mortality almost certainly
 
 ### Future studies
 
-Most notably, future studies need to address the lack of a positive effect and the lack of a representative sample. One such solution could be to use data from a multi-year period, over which time many more counties would experience enough infant deaths to bypass the suppression threshold. The type of counties included in the study could then expand, too.
+Most notably, future studies need to address the lack of a representative sample. One such solution could be to use data from a multi-year period, over which time many more counties would experience enough infant deaths to bypass the suppression threshold. The type of counties included in the study could then expand, too.
 
 Additionally, future studies could examine individual-level data. A more granular study may reveal deeper and stronger insights.
 
