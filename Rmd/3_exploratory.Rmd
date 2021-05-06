@@ -29,7 +29,7 @@ death_rate <- outcome %>%
 
 ```{r mort-hist, fig.cap="Distribution of infant mortality rate"}
 ggplot(death_rate, aes(x = death_rate)) +
-	geom_histogram(bins = 10, fill = "cadetblue4", alpha = 0.9) +
+	geom_histogram(bins = 10, fill = "#00416A", alpha = 0.9) +
 	theme_minimal() +
 	labs(x = "Death rate per 100,000 births",
 			 y = "Number of counties",
