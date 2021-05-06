@@ -31,17 +31,7 @@ The $\mathrm{AIC}$ of the model with interactions is lower than that of the mode
 
 ### Model diagnostics
 
-Table \@ref(tab:reg) shows the summary table of this regression. We also need to examine the diagnostic plots to determine whether multiple linear regression is suitable for these data.
-
-```{r reg}
-fit <- lm(best_interaction$call$formula, data = df_fit)
-
-papeR::prettify(summary(fit)) %>% 
-	dplyr::mutate(dplyr::across(2:6, ~round(., 5))) %>% 
-	dplyr::select(-ncol(.)) %>% 
-	knitr::kable(caption = "Regression output for best model") %>% 
-	kableExtra::kable_styling()
-```
+We also need to examine the diagnostic plots to determine whether multiple linear regression is suitable for these data.
 
 ```{r fitted-residual, fig.cap="Residual vs fitted value plot"}
 ggplot(fit, aes(x = .fitted, y = .resid)) +
@@ -92,4 +82,16 @@ Finally, Figure \@ref(fig:resid-leverage) shows the standardized residuals versu
 
 All together, these diagnostics suggest that a MLR model is adequate for these data.
 
+### Regression results
 
+```{r reg}
+fit <- lm(best_interaction$call$formula, data = df_fit)
+
+papeR::prettify(summary(fit)) %>% 
+	dplyr::mutate(dplyr::across(2:6, ~round(., 5))) %>% 
+	dplyr::select(-ncol(.)) %>% 
+	knitr::kable(caption = "Regression output for best model") %>% 
+	kableExtra::kable_styling()
+```
+
+Table \@ref(tab:reg) shows the summary table of this regression. 
