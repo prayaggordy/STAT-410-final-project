@@ -29,7 +29,7 @@ death_rate <- outcome %>%
 
 ```{r mort-hist, fig.cap="Distribution of infant mortality rate"}
 ggplot(death_rate, aes(x = death_rate)) +
-	geom_histogram(bins = 10, fill = "#00416A", alpha = 0.9) +
+	geom_histogram(bins = 10, fill = config$colors$darkblue, alpha = 0.9) +
 	theme_minimal() +
 	labs(x = "Death rate per 100,000 births",
 			 y = "Number of counties",
@@ -48,7 +48,9 @@ included_map <- geo_county %>%
 	theme_minimal() +
 	theme(axis.text = element_blank(),
 				panel.grid = element_blank()) +
-	scale_fill_gradient(low = "#9CECFB", high = "#00416A", na.value = "#dbdbdb") +
+	scale_fill_gradient(low = config$colors$lightblue,
+											high = config$colors$darkblue,
+											na.value = config$colors$gray) +
 	labs(title = "Counties included in sample",
 			 fill = "Death rate")
 
@@ -67,7 +69,7 @@ all_pop <- tidycensus::get_acs(geography = "county", variables = "B01001_001") %
 			 subtitle = "All US counties") +
 	theme(axis.title.y = element_blank(),
 				axis.text.y = element_blank()) +
-	scale_color_manual(values = c("Yes" = "#00416A", "No" = "#dbdbdb"))
+	scale_color_manual(values = c("Yes" = config$colors$darkblue, "No" = config$colors$gray))
 
 gridExtra::grid.arrange(included_map, all_pop, nrow = 1)
 ```
