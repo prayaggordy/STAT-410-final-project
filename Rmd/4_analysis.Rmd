@@ -4,32 +4,37 @@
 
 ```{r}
 df_fit <- df %>% 
-	dplyr::select(-fips, -female, -under_18, -insured, -population)
+	dplyr::mutate(other_race = config$rate - (white + black + hispanic + asian)) %>% 
+	dplyr::select(-fips, -female, -under_18, -insured, -white)
 
 fit_int <- lm(death_rate ~ 1, data = df_fit)
 fit_full <- lm(death_rate ~ ., data = df_fit)
-fit_interactions <- lm(death_rate ~ . + food_stamp*income + uninsured*income +
-											 uninsured*black + uninsured*hispanic + uninsured*white + uninsured*asian +
-											 uninsured*less_HS + uninsured*complete_HS + uninsured*some_college + uninsured*college +
-											 income*less_HS + income*complete_HS + income*some_college + income*college +
-											 income*black + income*hispanic + income*white + income*asian,
-											 data = df_fit)
+# fit_interactions <- lm(death_rate ~ . + food_stamp*income + uninsured*income +
+# 											 uninsured*black + uninsured*hispanic + uninsured*white + uninsured*asian +
+# 											 uninsured*less_HS + uninsured*complete_HS + uninsured*some_college + uninsured*college +
+# 											 income*less_HS + income*complete_HS + income*some_college + income*college +
+# 											 income*black + income*hispanic + income*white + income*asian,
+# 											 data = df_fit)
 
 best_full <- step(fit_int, scope = list(lower = fit_int, upper = fit_full), direction = "forward", trace = 0)
-best_interaction <- step(fit_int, scope = list(lower = fit_int, upper = fit_interactions), direction = "forward", trace = 0)
+best_full_fit <- lm(best_full$call$formula, data = df_fit)
 
-fit <- lm(best_interaction$call$formula, data = df_fit)
+fit_interactions <- lm(death_rate ~ income + black + hispanic + other_race + gini + some_college + male +
+											 	income*black + income*hispanic + income*other_race +
+											 	income*gini + income*some_college +
+											 	some_college*black + some_college*hispanic + some_college*other_race,
+											 data = df_fit)
+
+best_interaction <- step(best_full_fit, scope = list(lower = best_full_fit, upper = fit_interactions), direction = "forward", trace = 0)
+
+fit <- lm(best_full$call$formula, data = df_fit)
 ```
 
-First, we set our models. The base model is of the form $y_i = \beta_0$. The full model looks like $y_i = \beta_0 + \beta_1x_{i,1} + \cdots + \beta_{`r ncol(df_fit)`}x_{i,`r ncol(df_fit)`}$. Finally, we also test a full model with interactions of insurance with income, race, and education; and income with education and race.
+First, we set our models. The base model is of the form $y_i = \beta_0$. The full model looks like $y_i = \beta_0 + \beta_1x_{i,1} + \cdots + \beta_{`r ncol(df_fit)`}x_{i,`r ncol(df_fit)`}$. We can use forward stepwise selection to find the model with the lowest $\mathrm{AIC}$ score. When comparing the full model to the base model, the best model is `r print_latex_equation(best_full)`
 
-We can use forward stepwise selection to find the model with the lowest $\mathrm{AIC}$ score.
+Then, we can expand upon the full model by including some interactions, namely between income and race, income and the Gini index, income and education, and education and race. When comparing the model with interactions to the base model, the best model is `r print_latex_equation(best_interaction)`
 
-When comparing the full model to the base model, the best model is `r print_latex_equation(best_full)`
-
-When comparing the model with interactions to the base model, the best model is `r print_latex_equation(best_interaction)`
-
-The $\mathrm{AIC}$ of the model with interactions is lower than that of the model without interactions, so we'll use the one with interactions.
+The $\mathrm{AIC}$ of the best model without interactions is $`r AIC(best_full)`$, and the $\mathrm{AIC}$ of that model with added interactions is $`r AIC(best_interaction)`$. Because these are practically identical, the interactions do not have a practically significant effect, so it is valid to choose the model without interactions.
 
 ### Model diagnostics
 
@@ -85,4 +90,4 @@ papeR::prettify(summary(fit)) %>%
 	kableExtra::kable_styling()
 ```
 
-Table \@ref(tab:reg) shows the summary table of this regression. An increase in median income, the proportion of the population that is Hispanic, the proportion of the population that is White, the proportion of the population that is Asian, the proportion ofthe population that completed some college, the proportion of the population that is over age 65 are all statistically significantly associated with a decrease in the infant mortality rate. The interaction term between the proportion of the population that is Asian and the median income has a statistically significant positive effect on the infant mortality rate.
+Table \@ref(tab:reg) shows the summary table of this regression. An increase in the county's median income, the proportion of Hispanic residnets, and the Gini index of inequality all have statistically significant substantial negative effects on the infant mortality rate, while the proportion of Black residents and the proportion of residents of other race have statistically significant positive substantial effects on the infant mortality rate.
