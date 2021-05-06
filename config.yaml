@@ -40,6 +40,10 @@ references:
     url: "minorityhealth.hhs.gov"
     name: "HHS"
     description: "Infant Mortality"
+  income:
+    url: "ncbi.nlm.nih.gov/pmc/articles/PMC3791093/"
+    name: "NIH"
+    description: "Income and child mortality in developing countries: a systematic review and meta-analysis"
 
 census_long:
   age:

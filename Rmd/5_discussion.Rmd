@@ -10,6 +10,10 @@ This regression highlights important conclusions connecting a county's racial co
 
 Most of these effects are in line with prior research. Studies suggest that Black children are 2-3 times more likely than non-Hispanic White children to die as infants, and that Native American and Alaska Natives have an infant mortality rate twice as high as non-Hispanic Whites. Prior research has found that Hispanics have an infant mortality rate slightly higher—1.1 times, to be exact—than non-Hispanic Whites, so obtaining a negative effect for this nonrepresentative sample of counties is not too unreasonable.
 
+#### Income
+
+An increase in a county's median income, all else held constant, is associated with a lower infant mortality rate. This mirrors trends found abroad, which suggest that children in wealthier countries are less likely to die as infants. Paradoxically, higher income inequality, as measured through the Gini index, is also associated with lower infant mortality. (Note that the Gini index is bounded between $0$ and $1$, so the substantive effect here is much larger than those of our population-adjusted predictors.) This effect could be more deeply examined in a more representative sample of the counties of the United States.
+
 ### Limitations
 
 The suppression of data from counties with low infant mortality almost certainly impacted the results. Figure \@ref(fig:map) shows the included counties, which surround cities and have high populations (Figure \@ref(fig:pop)). Much of the Midwest, for instance, is not included in the sample. Generally, the sample of counties was almost certainly not representative of the entire United States, and conclusions should focus on only the most populated counties.
