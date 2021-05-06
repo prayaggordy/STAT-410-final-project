@@ -2,7 +2,7 @@
 
 ### Conclusions
 
-In line with our regression results (Table \@ref(tab:reg)), we can break our discussion into three sections: race, income, and unincluded variables.
+In line with our regression results (Table \@ref(tab:reg)), we can break our discussion into three sections: race, income, and excluded variables.
 
 #### Race
 
