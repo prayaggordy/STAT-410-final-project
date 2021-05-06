@@ -10,7 +10,7 @@ data:
 
 sources:
   outcome:
-    description: "Infant mortality data"
+    description: "Infant mortality"
     name: "CDC WONDER"
     shortname: "CDC"
     url: "wonder.cdc.gov/controller/datarequest/D159"
@@ -19,7 +19,7 @@ sources:
     collected: "Download"
     documentation: "wonder.cdc.gov/wonder/help/lbd-expanded.html#"
   census:
-    description: "Demographic data"
+    description: "Demographics"
     name: "American Community Survey"
     shortname: "ACS"
     url: "census.gov/programs-surveys/acs"
