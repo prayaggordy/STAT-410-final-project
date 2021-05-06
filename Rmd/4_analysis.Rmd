@@ -35,42 +35,30 @@ The $\mathrm{AIC}$ of the model with interactions is lower than that of the mode
 
 We also need to examine the diagnostic plots to determine whether multiple linear regression is suitable for these data.
 
-```{r fitted-residual, fig.cap="Residual vs fitted value plot"}
-ggplot(fit, aes(x = .fitted, y = .resid)) +
+```{r diag, fig.cap="Diagnostic plots"}
+resfit <- ggplot(fit, aes(x = .fitted, y = .resid)) +
 	geom_point() +
 	theme_minimal() +
 	labs(title = "Residual vs fitted value plot",
 			 x = "Fitted value",
 			 y = "Residual")
-```
 
-Figure \@ref(fig:fitted-residual) shows a residual-fitted value plot. There is no discernible pattern, which suggests linearity constant variance of the errors.
-
-```{r qq, fig.cap="Normal QQ plot for the residuals"}
-ggplot(fit, aes(sample = .resid)) +
+qq <- ggplot(fit, aes(sample = .resid)) +
 	geom_qq() +
 	geom_qq_line() +
 	theme_minimal() +
 	labs(x = "Theoretical quantile",
 			 y = "Sample quantile",
 			 title = "Normal QQ plot for the residuals")
-```
 
-Figure \@ref(fig:qq) shows a Normal QQ plot of the residuals, which in this case suggests a general normality of the errors. There are a few points at the tails which could raise some concern, but the pattern is roughly linear.
-
-```{r scale-location, fig.cap="Scale-location plot"}
-ggplot(fit, aes(x = .fitted, y = .stdresid)) +
+scale_location <- ggplot(fit, aes(x = .fitted, y = .stdresid)) +
 	geom_point() +
 	theme_minimal() +
 	labs(x = "Fitted values",
 			 y = "Standardized residuals",
 			 title = "Scale-Location plot")
-```
 
-Figure \@ref(fig:scale-location) shows the standardized residuals versus the fitted values. Again, we do not see much of a pattern.
-
-```{r resid-leverage, fig.cap="Residuals vs leverage plot"}
-ggplot(fit, aes(x = .hat, y = .stdresid)) +
+resid_leverage <- ggplot(fit, aes(x = .hat, y = .stdresid)) +
 	geom_point() +
 	geom_vline(xintercept = 4*ncol(fit$model)/nrow(fit$model)) +
 	geom_hline(yintercept = c(2, -2)) +
@@ -78,9 +66,12 @@ ggplot(fit, aes(x = .hat, y = .stdresid)) +
 	labs(x = "Leverage",
 			 y = "Standardized residuals",
 			 title = "Residuals vs leverage")
+
+gridExtra::grid.arrange(resfit, qq, scale_location, resid_leverage,
+												nrow = 2)
 ```
 
-Finally, Figure \@ref(fig:resid-leverage) shows the standardized residuals versus leverage. There are a few outliers with low leverage and a few leverage points with small residuals, and there is one point that is barely a leverage point by our $4p/n$ cutoff that is an outlier, i.e. a bad leverage point.
+Figure \@ref(fig:diag) shows the diagnostic plots for the MLR model. There is no discernible pattern in the residual-fitted value plot, which suggests linearity constant variance of the errors. Further, the linearity of the normal QQ plot of the residuals suggests a general normality of the errors. There are a few points at the tails which could raise some concern, but the pattern is roughly linear. The scale-location plot shows the standardized residuals versus the fitted values. Again, we do not see much of a pattern. Finally, the standardized residuals versus leverage plot shows leverage points and outliers. There are a few outliers with low leverage and a few leverage points with small residuals, and there is one point that is barely a leverage point by our $4p/n$ cutoff that is an outlier, i.e. a bad leverage point.
 
 All together, these diagnostics suggest that a MLR model is adequate for these data.
 
