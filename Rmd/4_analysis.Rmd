@@ -1,1 +1,12 @@
 ## Data analysis
+
+### Variable selection
+
+```{r}
+df_fit <- df %>% 
+	dplyr::select(-fips, -female, -above_65)
+
+fit_int <- lm(death_rate ~ 1, data = df_fit)
+fit_full <- lm(death_rate ~ ., data = df_fit)
+```
+
