@@ -38,10 +38,10 @@ ggplot(death_rate, aes(x = death_rate)) +
 
 In Figure \@ref(fig:mort-hist), we can see the generally normal distribution of the mortality data. Furthermore, we can see that some counties have an infant mortality rate of almost `r scales::percent(max(death_rate$death_rate)/config$rate)`, which feels absurdly high.
 
-```{r map, fig.cap="Map of infant mortality rate by county"}
+```{r included-counties, include=FALSE, fig.cap="Charts of counties included in sample"}
 geo_county <- urbnmapr::get_urbn_map("counties", sf = TRUE)
 
-geo_county %>% 
+included_map <- geo_county %>% 
 	dplyr::left_join(death_rate, by = c("county_fips" = "fips")) %>% 
 	ggplot(aes(fill = death_rate)) +
 	geom_sf(color = "#ffffff", size = 0.05) +
@@ -51,9 +51,38 @@ geo_county %>%
 	scale_fill_gradient(low = "#9CECFB", high = "#00416A", na.value = "#dbdbdb") +
 	labs(title = "Counties included in sample",
 			 fill = "Death rate")
+
+all_pop <- tidycensus::get_acs(geography = "county", variables = "B01001_001") %>% 
+	dplyr::select(fips = GEOID, population = estimate) %>% 
+	dplyr::left_join(outcome %>% 
+									 	dplyr::select(fips) %>% 
+									 	dplyr::distinct() %>% 
+									 	dplyr::mutate(Included = "Yes")) %>% 
+	dplyr::mutate(Included = tidyr::replace_na(Included, "No")) %>% 
+	ggplot(aes(x = log(population), y = 1, color = Included)) +
+	ggbeeswarm::geom_quasirandom(groupOnX = FALSE, size = 2.5, alpha = 0.75) +
+	theme_minimal() +
+	labs(x = "Population (log)",
+			 title = "Population distribution",
+			 subtitle = "All US counties") +
+	theme(axis.title.y = element_blank(),
+				axis.text.y = element_blank()) +
+	scale_color_manual(values = c("Yes" = "#00416A", "No" = "#dbdbdb"))
+
+gridExtra::grid.arrange(included_map, all_pop, nrow = 1)
 ```
 
-Figure \@ref(fig:map) shows the counties included in the study, filled by their infant mortality rate. Because the CDC suppresses data from counties with too few infant deaths, the sample counties mostly high-population counties. The missing counties almost certinaly influence the results, as many are rural, overwhelmingly White counties.
+```{r map, fig.cap="Map of infant mortality rate by county"}
+included_map
+```
+
+```{r pop, fig.cap="Population for all counties in the United States"}
+all_pop +
+	labs(title = "Distribution of logged population, all US counties",
+			 subtitle = NULL)
+```
+
+Figure \@ref(fig:map) shows the counties included in the study, filled by their infant mortality rate, and Figure \@ref(fig:pop) shows the distribution of the population of all counties in the US, colored by their inclusion in the study. Because the CDC suppresses data from counties with too few infant deaths, the sample represents mostly high-population counties. The missing counties almost certinaly influence the results, as many are rural, overwhelmingly White counties.
 
 ### Demographic data
 
@@ -69,9 +98,7 @@ demographics %>%
 
 In Figure \@ref(fig:corrplot) we can see the correlations between our different demographic indicators. There are some obvious correlations due to singularities, such as between male and female. There are important correlations to consider across types of indicators, such as insurance and income, race, and education; education and income and race; and food stamps and income. We can use interaction terms in the regression to account for this.
 
-The graph below (Figure \@ref(fig:food-stamps-income)) shows the strong negative correlation between food stamps and income as an example of such an interaction.
-
-```{r food-stamps-income, fig.cap="There is a strong negative correlation between food stamps and income"}
+```{r food-stamps-income, eval=FALSE, fig.cap="There is a strong negative correlation between food stamps and income"}
 demographics %>%
 	dplyr::select(fips, variable_name_short, estimate) %>%
 	dplyr::filter(variable_name_short %in% c("food_stamp", "income")) %>%
