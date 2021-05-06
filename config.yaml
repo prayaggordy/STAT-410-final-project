@@ -55,4 +55,6 @@ census_long:
         start: 30
         end: 57
 
+rate: 100000
+
 sections: ["1_project_statement", "2_data_description", "3_exploratory", "4_analysis", "5_discussion", "6_references"]

@@ -20,7 +20,7 @@ get_outcome <- function(fn_raw = config$data$outcome$raw,
 									fips = county_code,
 									deaths,
 									births) %>%
-		dplyr::mutate(death_rate = deaths/births*1000) %>%
+		dplyr::mutate(death_rate = deaths/births*config$rate) %>%
 		tidyr::separate(col = county,
 										into = c("county", "state"),
 										sep = ", ",

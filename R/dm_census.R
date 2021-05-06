@@ -95,7 +95,7 @@ normalize_population <- function(df,
 	df %>%
 		dplyr::inner_join(population) %>%
 		dplyr::arrange(fips, variable) %>%
-		dplyr::mutate(estimate = ifelse(variable %in% leave_as_is, estimate, estimate/population*100000)) %>%
+		dplyr::mutate(estimate = ifelse(variable %in% leave_as_is, estimate, estimate/population*config$rate)) %>%
 		dplyr::select(-population)
 }
 
