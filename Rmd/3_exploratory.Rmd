@@ -15,7 +15,47 @@ lapply(config$sources,
 	kableExtra::kable_styling()
 ```
 
-The indicators considered are listed in Table \@ref(tab:indicators).
+The indicators collected are listed in Table \@ref(tab:indicators).
+
+### Outcome data
+
+```{r}
+death_rate <- outcome %>% 
+	dplyr::filter(variable == "death_rate") %>% 
+	tidyr::pivot_wider(id_cols = fips,
+										 names_from = variable,
+										 values_from = estimate)
+```
+
+```{r mort-hist, fig.cap="Distribution of infant mortality rate"}
+ggplot(death_rate, aes(x = death_rate)) +
+	geom_histogram(bins = 10, fill = "cadetblue4", alpha = 0.9) +
+	theme_minimal() +
+	labs(x = "Death rate per 100,000 births",
+			 y = "Number of counties",
+			 title = "Distribution of infant mortality rate")
+```
+
+In Figure \@ref(fig:mort-hist), we can see the generally normal distribution of the mortality data. Furthermore, we can see that some counties have an infant mortality rate of almost `r scales::percent(max(death_rate$death_rate)/config$rate)`, which feels absurdly high.
+
+```{r map, fig.cap="Map of infant mortality rate by county"}
+geo_county <- urbnmapr::get_urbn_map("counties", sf = TRUE)
+
+geo_county %>% 
+	dplyr::left_join(death_rate, by = c("county_fips" = "fips")) %>% 
+	ggplot(aes(fill = death_rate)) +
+	geom_sf(color = "#ffffff", size = 0.05) +
+	theme_minimal() +
+	theme(axis.text = element_blank(),
+				panel.grid = element_blank()) +
+	scale_fill_gradient(low = "#9CECFB", high = "#00416A", na.value = "#dbdbdb") +
+	labs(title = "Counties included in sample",
+			 fill = "Death rate")
+```
+
+Figure \@ref(fig:map) shows the counties included in the study, filled by their infant mortality rate.
+
+### Demographic data
 
 ```{r corrplot, fig.cap="Correlation plot for indicators under consideration"}
 demographics %>%
