@@ -4,9 +4,41 @@
 
 ```{r}
 df_fit <- df %>% 
-	dplyr::select(-fips, -female, -above_65)
+	dplyr::select(-fips, -female, -under_18, -insured, -population)
 
 fit_int <- lm(death_rate ~ 1, data = df_fit)
 fit_full <- lm(death_rate ~ ., data = df_fit)
+fit_interactions <- lm(death_rate ~ . + food_stamp*income + uninsured*income +
+											 uninsured*black + uninsured*hispanic + uninsured*white + uninsured*asian +
+											 uninsured*less_HS + uninsured*complete_HS + uninsured*some_college + uninsured*college +
+											 income*less_HS + income*complete_HS + income*some_college + income*college +
+											 income*black + income*hispanic + income*white + income*asian,
+											 data = df_fit)
+
+best_full <- step(fit_int, scope = list(lower = fit_int, upper = fit_full), direction = "forward", trace = 0)
+best_interaction <- step(fit_int, scope = list(lower = fit_int, upper = fit_interactions), direction = "forward", trace = 0)
 ```
+
+First, we set our models. The base model is of the form $y_i = \beta_0$. The full model looks like $y_i = \beta_0 + \beta_1x_{i,1} + \cdots + \beta_{`r ncol(df_fit)`}x_{i,`r ncol(df_fit)`}$. Finally, we also test a full model with interactions between insurance and income, race, and education; and income and education and race.
+
+We can use forward stepwise selection to find the model with the lowest $\mathrm{AIC}$ score.
+
+When comparing the full model to the base model, the best model is `r print_latex_equation(best_full)`
+
+When comparing the model with interactions to the base model, the best model is `r print_latex_equation(best_interaction)`
+
+The $\mathrm{AIC}$ of the model with interactions is lower than that of the model without interactions, so we'll use the one with interactions. Table \@ref(tab:reg) shows the summary table of this regression.
+
+```{r reg}
+fit <- lm(best_interaction$call$formula, data = df_fit)
+
+papeR::prettify(summary(fit)) %>% 
+	dplyr::mutate(dplyr::across(2:6, ~round(., 4))) %>% 
+	dplyr::select(-ncol(.)) %>% 
+	knitr::kable(caption = "Regression output for best model") %>% 
+	kableExtra::kable_styling()
+```
+
+
+
 
