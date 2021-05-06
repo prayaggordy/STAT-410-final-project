@@ -6,7 +6,7 @@ lapply(config$sources,
 			 	c("Data" = source$description, 
 			 		"Source" = source$name, 
 			 		"Link" = source$url, 
-			 		"Collection method" = source$collected)
+			 		"Collection" = source$collected)
 			 }) %>% 
 	dplyr::bind_rows() %>% 
 	knitr::kable(caption = "Collection methods for data",
