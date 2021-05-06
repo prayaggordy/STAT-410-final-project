@@ -40,6 +40,10 @@ references:
     url: "minorityhealth.hhs.gov/omh/browse.aspx?lvl=4&lvlid=23"
     name: "HHS"
     description: "Infant Mortality and African Americans"
+  native-mortality:
+    url: "minorityhealth.hhs.gov/omh/browse.aspx?lvl=4&lvlid=38"
+    name: "HHS"
+    description: "Infant Mortality and American Indians/Alaska Natives"
 
 census_long:
   age:
