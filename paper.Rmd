@@ -22,6 +22,22 @@ invisible(sapply(list.files("R", full.names = TRUE, recursive = TRUE), source, .
 
 outcome <- get_outcome()
 demographics <- get_census()
+
+lu_county_fips <- demographics %>% 
+	dplyr::select(fips, county) %>% 
+	tidyr::separate(col = county, into = c("county", "state"), sep = ", ") %>% 
+	dplyr::distinct()
+
+df <- demographics %>% 
+	tidyr::pivot_wider(id_cols = fips,
+										 names_from = variable_name_short,
+										 values_from = estimate) %>% 
+	dplyr::inner_join(outcome %>% 
+											dplyr::filter(variable == "death_rate") %>% 
+											tidyr::pivot_wider(id_cols = fips,
+																				 names_from = variable,
+																				 values_from = estimate),
+										by = "fips")
 ```
 
 ```{r, child = paste0("Rmd/", config$sections, ".Rmd")}
