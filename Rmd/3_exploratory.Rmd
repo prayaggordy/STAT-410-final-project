@@ -87,3 +87,5 @@ demographics %>%
 	scale_y_continuous(labels = scales::comma)
 ```
 
+Before regression, all relevant demographic variables were transformed into rates using the county's population.
+
