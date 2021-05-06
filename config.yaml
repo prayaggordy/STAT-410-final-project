@@ -13,16 +13,16 @@ sources:
     description: "Infant mortality data"
     name: "CDC WONDER"
     shortname: "CDC"
-    url: "https://wonder.cdc.gov/controller/datarequest/D159"
+    url: "wonder.cdc.gov/controller/datarequest/D159"
     variables: ""
     indicators: ["Deaths", "Births", "Death rate"]
     collected: "Download"
-    documentation: "https://wonder.cdc.gov/wonder/help/lbd-expanded.html#"
+    documentation: "wonder.cdc.gov/wonder/help/lbd-expanded.html#"
   census:
     description: "Demographic data"
     name: "American Community Survey"
     shortname: "ACS"
-    url: "https://www.census.gov/programs-surveys/acs"
+    url: "census.gov/programs-surveys/acs"
     variables: ["B01001_001", "B01001_002", "B01001_026",  # total population, male, female
                 "B01001H_001", "B01001B_001", "B01001D_001", "B01001I_001",  # non-hispanic white, black, asian, hispanic
                 "B19013_001", "B19083_001", "B22002_002",  # median household income, gini index, received food stamps
