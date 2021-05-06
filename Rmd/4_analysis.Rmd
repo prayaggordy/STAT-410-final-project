@@ -21,7 +21,7 @@ best_interaction <- step(fit_int, scope = list(lower = fit_int, upper = fit_inte
 fit <- lm(best_interaction$call$formula, data = df_fit)
 ```
 
-First, we set our models. The base model is of the form $y_i = \beta_0$. The full model looks like $y_i = \beta_0 + \beta_1x_{i,1} + \cdots + \beta_{`r ncol(df_fit)`}x_{i,`r ncol(df_fit)`}$. Finally, we also test a full model with interactions between insurance and income, race, and education; and income and education and race.
+First, we set our models. The base model is of the form $y_i = \beta_0$. The full model looks like $y_i = \beta_0 + \beta_1x_{i,1} + \cdots + \beta_{`r ncol(df_fit)`}x_{i,`r ncol(df_fit)`}$. Finally, we also test a full model with interactions of insurance with income, race, and education; and income with education and race.
 
 We can use forward stepwise selection to find the model with the lowest $\mathrm{AIC}$ score.
 
