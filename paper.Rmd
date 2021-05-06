@@ -37,7 +37,8 @@ df <- demographics %>%
 											tidyr::pivot_wider(id_cols = fips,
 																				 names_from = variable,
 																				 values_from = estimate),
-										by = "fips")
+										by = "fips") %>% 
+	dplyr::select(-c(female, above_65))
 ```
 
 ```{r, child = paste0("Rmd/", config$sections, ".Rmd")}
