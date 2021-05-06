@@ -53,7 +53,7 @@ geo_county %>%
 			 fill = "Death rate")
 ```
 
-Figure \@ref(fig:map) shows the counties included in the study, filled by their infant mortality rate.
+Figure \@ref(fig:map) shows the counties included in the study, filled by their infant mortality rate. Because the CDC suppresses data from counties with too few infant deaths, the sample counties mostly high-population counties. The missing counties almost certinaly influence the results, as many are rural, overwhelmingly White counties.
 
 ### Demographic data
 
