@@ -54,7 +54,8 @@ included_map <- geo_county %>%
 	labs(title = "Counties included in sample",
 			 fill = "Death rate")
 
-all_pop <- tidycensus::get_acs(geography = "county", variables = "B01001_001") %>% 
+all_pop <- readr::read_csv(paste0(".", config$data$census$raw)) %>% 
+	dplyr::filter(variable == "B01001_001") %>% 
 	dplyr::select(fips = GEOID, population = estimate) %>% 
 	dplyr::left_join(outcome %>% 
 									 	dplyr::select(fips) %>% 
@@ -68,7 +69,9 @@ all_pop <- tidycensus::get_acs(geography = "county", variables = "B01001_001") %
 			 title = "Population distribution",
 			 subtitle = "All US counties") +
 	theme(axis.title.y = element_blank(),
-				axis.text.y = element_blank()) +
+				axis.text.y = element_blank(),
+				panel.grid.major.y = element_blank(),
+				panel.grid.minor.y = element_blank()) +
 	scale_color_manual(values = c("Yes" = config$colors$darkblue, "No" = config$colors$gray))
 
 gridExtra::grid.arrange(included_map, all_pop, nrow = 1)
@@ -117,5 +120,5 @@ demographics %>%
 	scale_y_continuous(labels = scales::comma)
 ```
 
-Before regression, all relevant demographic variables were transformed into rates using the county's population. Both the infant mortality rate and the demographic variables are expressed in per-$`r scales::comma(config$rate)$ levels.
+Before regression, all relevant demographic variables were transformed into rates using the county's population. Both the infant mortality rate and the demographic variables are expressed in per-$`r scales::comma(config$rate)`$ levels.
 
