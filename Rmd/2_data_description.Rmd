@@ -15,3 +15,5 @@ lapply(config$sources,
 ```
 
 The data were collected as described in Table \@ref(tab:data-collection). Our outcome data will serve as our $y$ variables in regression, while our demographic data will serve as predictors. These demographic data will help show significant associations between indicators such as race and healthcare coverage with infant mortality.
+
+Unlike many other similar studies, this project will consider infant mortality at the county level rather than at the individual level. All descriptions of demographics hereinafter refer to the county level unless otherwise specified.
