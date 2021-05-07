@@ -36,7 +36,7 @@ ggplot(death_rate, aes(x = death_rate)) +
 			 title = "Distribution of infant mortality rate")
 ```
 
-In Figure \@ref(fig:mort-hist), we can see the generally normal distribution of the mortality data. Furthermore, we can see that some counties have an infant mortality rate of almost `r scales::percent(max(death_rate$death_rate)/config$rate)`, which feels absurdly high.
+In Figure \@ref(fig:mort-hist), we can see the generally normal distribution of the infant mortality rate by county. Furthermore, we can see that some counties have a very high infant mortality rate of almost `r scales::percent(max(death_rate$death_rate)/config$rate)`.
 
 ```{r included-counties, include=FALSE, fig.cap="Charts of counties included in sample"}
 geo_county <- urbnmapr::get_urbn_map("counties", sf = TRUE)
@@ -84,7 +84,7 @@ all_pop +
 			 subtitle = NULL)
 ```
 
-Figure \@ref(fig:map) shows the counties included in the study, filled by their infant mortality rate, and Figure \@ref(fig:pop) shows the distribution of the population of all counties in the US, colored by their inclusion in the study. Because the CDC suppresses data from counties with too few infant deaths, the sample represents mostly high-population counties. The missing counties almost certinaly influence the results, as many are rural, overwhelmingly White counties.
+Figure \@ref(fig:map) shows the counties included in the study, filled by their infant mortality rate, and Figure \@ref(fig:pop) shows the distribution of the population of all counties in the US, colored by their inclusion in the study. Because the CDC suppresses data from counties with too few infant deaths, the sample represents mostly high-population counties. The missing counties almost certinaly influence the results, as many in the West, North, and Midwest are rural, overwhelmingly White counties; additionally, many of the missing counties in the Deep South have large Black populations which may face different conditions than Black populations on the coasts.
 
 ### Demographic data
 
@@ -117,5 +117,5 @@ demographics %>%
 	scale_y_continuous(labels = scales::comma)
 ```
 
-Before regression, all relevant demographic variables were transformed into rates using the county's population.
+Before regression, all relevant demographic variables were transformed into rates using the county's population. Both the infant mortality rate and the demographic variables are expressed in per-$`r scales::comma(config$rate)$ levels.
 
