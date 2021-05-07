@@ -5,7 +5,7 @@
 ```{r}
 df_fit <- df %>% 
 	dplyr::mutate(other_race = config$rate - (white + black + hispanic + asian)) %>% 
-	dplyr::select(-fips, -female, -under_18, -insured, -white)
+	dplyr::select(-fips, -female, -under_18, -insured, -white)  # prevent singularities
 
 fit_int <- lm(death_rate ~ 1, data = df_fit)
 fit_full <- lm(death_rate ~ ., data = df_fit)
@@ -13,6 +13,7 @@ fit_full <- lm(death_rate ~ ., data = df_fit)
 best_full <- step(fit_int, scope = list(lower = fit_int, upper = fit_full), direction = "forward", trace = 0)
 best_full_fit <- lm(best_full$call$formula, data = df_fit)
 
+# based on the best_full model
 fit_interactions <- lm(death_rate ~ income + black + hispanic + other_race + gini + some_college + male +
 											 	income*black + income*hispanic + income*other_race +
 											 	income*gini + income*some_college +
@@ -28,7 +29,7 @@ First, we set our models. The base model is of the form $y_i = \beta_0$. The ful
 
 Then, we can expand upon the full model by including some interactions, namely between income and race, income and the Gini index, income and education, and education and race. When comparing the expanded model with interactions to the best full model, the best model with interactions is `r print_latex_equation(best_interaction)`
 
-The $\mathrm{AIC}$ of the best model without interactions is $`r round(AIC(best_full))`$, and the $\mathrm{AIC}$ of that model with added interactions is $`r round(AIC(best_interaction))`$. Because these are practically identical, the interactions do not have a practically significant effect, so it is valid to choose the model without interactions.
+The $\mathrm{AIC}$ of the best model without interactions is $`r round(AIC(best_full))`$, and the $\mathrm{AIC}$ of that model with added interactions is $`r round(AIC(best_interaction))`$. Because these scores are almost identical, the interactions do not have a practically significant effect, so it is reasonable to choose the model without interactions to facilitate straightforward interpretations.
 
 ### Model diagnostics
 
