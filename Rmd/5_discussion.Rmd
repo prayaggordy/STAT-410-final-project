@@ -14,6 +14,12 @@ Most of these effects are in line with prior research. Studies suggest that Blac
 
 An increase in a county's median income, all else held constant, is associated with a lower infant mortality rate. This mirrors trends found abroad, which suggest that children in wealthier countries are less likely to die as infants. Paradoxically, higher income inequality, as measured through the Gini index, is also associated with lower infant mortality. (Note that the Gini index is bounded between $0$ and $1$, so the substantive effect here is much larger than those of our population-adjusted predictors.) This effect could be more deeply examined in a more representative sample of the counties of the United States.
 
+#### Excluded variables
+
+The potential demographic variables that were either excluded in variable selection or whose effect was not significant at the $\alpha = 0.05$ level are as interesting as the other conclusions. Most notably, measures of healthcare—in this case, the proportions of the population that are insured and uninsured—were excluded in variable selection. One could suppose that insurance status is a proxy for access to healthcare, which would have an impact on infant mortality; however, these predictors were not selected. This could be because their effect was more strongly seen through race, or perhaps because insurance rates did not differ enough between the selected counties. An individual-level analysis could shed light on the impact of insurance.
+
+Similarly, education, sex, and age were left out of the picture. These factors may not differ enough at the county level to make a difference, or perhaps they simply matter less than factors like income and race. The proportion of the population on food stamps was also excluded. Finally, the population itself was excluded, suggesting that infant mortality rates almost scale with the size of the county, as the systems in place to combat such mortality scale, too.
+
 ### Limitations
 
 The suppression of data from counties with low infant mortality almost certainly impacted the results. Figure \@ref(fig:map) shows the included counties, which surround cities and have high populations (Figure \@ref(fig:pop)). Much of the Midwest, for instance, is not included in the sample. Generally, the sample of counties was almost certainly not representative of the entire United States, and conclusions should focus on only the most populated counties.
@@ -22,6 +28,6 @@ The suppression of data from counties with low infant mortality almost certainly
 
 Most notably, future studies need to address the lack of a representative sample. One such solution could be to use data from a multi-year period, over which time many more counties would experience enough infant deaths to bypass the suppression threshold. The type of counties included in the study could then expand, too.
 
-Additionally, future studies could examine individual-level data. A more granular study may reveal deeper and stronger insights.
+Additionally, future studies could examine individual-level data. A more granular study may reveal deeper and stronger insights, especially as it pertains to race, insurance status, and income.
 
 Finally, broader studies of infant and toddler deaths could shed light on disparities in early childhood care. The CDC only reports infant deaths for the first year of life, but early childhood health may be crucial for longevity and a lifetime of health.
