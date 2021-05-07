@@ -22,7 +22,7 @@ build_age_vars <- function() {
 	build_long_vars(l = config$census_long$age$sex, init = config$census_long$age$open)
 }
 
-build_insurance_vars <- function() {
+build_insurance_vars <- function(census_vars) {
 	build_long_vars(l = config$census_long$insurance$sex, init = config$census_long$insurance$open) %>%
 		tibble::as_tibble() %>%
 		dplyr::rename(variable = value) %>%
@@ -31,14 +31,14 @@ build_insurance_vars <- function() {
 		dplyr::pull(variable)
 }
 
-build_aggregate_categories <- function() {
+build_aggregate_categories <- function(census_vars) {
 	age_groups <- tibble::tibble(variable = build_age_vars(),
 															 category = rep(c(rep("under_18", 4),
 															 								 rep("between_18_44", 8),
 															 								 rep("between_45_65", 5),
 															 								 rep("above_65", 6)), 2))
 
-	insurance_groups <- tibble::tibble(variable = build_insurance_vars()) %>%
+	insurance_groups <- tibble::tibble(variable = build_insurance_vars(census_vars = census_vars)) %>%
 		dplyr::inner_join(census_vars, by = "variable") %>%
 		tidyr::separate(col = variable_name, into = c("age_part", "category"), sep = "years:!!|over:!!") %>%
 		dplyr::select(variable, category) %>%
@@ -50,11 +50,11 @@ build_aggregate_categories <- function() {
 #' @title Download the raw census data
 #' @param variables: The census variables to download
 #' @param fn_raw: File location at which to store raw data
-download_census <- function(variables, fn_raw) {
+download_census <- function(variables, census_vars, fn_raw) {
 
 	df <- tidycensus::get_acs(geography = "county", variables = variables) %>%
 		dplyr::bind_rows(tidycensus::get_acs(geography = "county", variables = build_age_vars())) %>%
-		dplyr::bind_rows(tidycensus::get_acs(geography = "county", variables = build_insurance_vars()))
+		dplyr::bind_rows(tidycensus::get_acs(geography = "county", variables = build_insurance_vars(census_vars = census_vars)))
 
 	readr::write_csv(x = df,
 									 file = fn_raw)
@@ -115,9 +115,9 @@ get_census <- function(variables = config$sources$census$variables,
 			dplyr::mutate(variable_name = paste(concept, label, sep = ": ")) %>%
 			dplyr::select(variable = name, variable_name)
 
-		aggregate_categories <- build_aggregate_categories()
+		aggregate_categories <- build_aggregate_categories(census_vars = census_vars)
 
-		df <- download_census(variables = variables, fn_raw = fn_raw) %>%
+		df <- download_census(variables = variables, census_vars = census_vars, fn_raw = fn_raw) %>%
 			clean_census(census_vars = census_vars, aggregate_categories = aggregate_categories) %>%
 			normalize_population() %>%
 			dplyr::mutate(variable_name_short = dplyr::case_when(
