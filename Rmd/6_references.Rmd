@@ -2,7 +2,7 @@
 
 Table \@ref(tab:data-collection) shows the data sources used in this project. Table \@ref(tab:sources) shows any other sources used.
 
-```{r}
+```{r sources}
 lapply(config$references,
 			 function(source) {
 			 	c("Title" = source$description, 
@@ -12,6 +12,7 @@ lapply(config$references,
 	dplyr::bind_rows() %>% 
 	knitr::kable(caption = "References",
 							 escape = TRUE) %>% 
-	kableExtra::kable_styling()
+	kableExtra::kable_styling() %>%
+  kableExtra::column_spec(1, width = "10em")
 ```
 

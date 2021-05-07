@@ -39,7 +39,7 @@ references:
   race-mortality:
     url: "minorityhealth.hhs.gov"
     name: "HHS"
-    description: "Infant Mortality"
+    description: "Infant mortality among different races"
   income:
     url: "ncbi.nlm.nih.gov/pmc/articles/PMC3791093/"
     name: "NIH"
